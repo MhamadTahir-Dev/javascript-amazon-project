@@ -20,7 +20,7 @@ products.forEach((Prodect) => {
                 <div class="product-rating-count link-primary">${Prodect.rating.count}</div>
               </div>
 
-              <div class="product-price">$${(Prodect.PriceCents / 100).toFixed(2)}</div>
+              <div class="product-price">$${(Prodect.priceCents / 100).toFixed(2)}</div>
 
               <div class="product-quantity-container">
                 <select>
@@ -44,11 +44,35 @@ products.forEach((Prodect) => {
                 Added
               </div>
 
-              <button class="add-to-cart-button button-primary">Add to Cart</button>
+              <button class="add-to-cart-button button-primary  js-add-to-cart"  data-product-id="${Prodect.id}">Add to Cart</button>
             </div>
   `;
 });
 
-console.log(prodectHtml);
-
 document.querySelector('.js-products-grid').innerHTML = prodectHtml;
+
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+    const productId = button.dataset.productId;
+
+    let matchingItms;
+
+    cart.forEach((Item) => {
+      if (productId === Item.productId) {
+        matchingItms = Item;
+      }
+    });
+
+    if (matchingItms) {
+      // matchingItms.Quantity += 1;
+      matchingItms.Quantity++;
+    } else {
+      cart.push({
+        productId: productId,
+        Quantity: 1,
+      });
+    }
+
+    console.log(cart);
+  });
+});
