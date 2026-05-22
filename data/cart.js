@@ -4,11 +4,11 @@ if (!cart) {
   cart = [
     {
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-      Quantity: 2,
+      quantity: 2,
     },
     {
       productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-      Quantity: 1,
+      quantity: 1,
     },
   ];
 }
@@ -27,12 +27,12 @@ export function addToCart(productId) {
   });
 
   if (matchingItms) {
-    // matchingItms.Quantity += 1;
-    matchingItms.Quantity++;
+    // matchingItms.quantity += 1;
+    matchingItms.quantity++;
   } else {
     cart.push({
       productId: productId,
-      Quantity: 1,
+      quantity: 1,
     });
   }
   saveToStorage();
@@ -47,4 +47,15 @@ export function removeFromcart(productId) {
   cart = newcart;
 
   saveToStorage();
+}
+
+export function calculateCartQuantity() {
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  // ⚠️ زۆر گرنگە: لێرەدا دەبێت بڕەکە بگەڕێنێتەوە (return) بۆ ئەو شوێنەی بانگی دەکات
+  return cartQuantity;
 }

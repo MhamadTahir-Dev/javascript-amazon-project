@@ -1,4 +1,6 @@
-import { cart, removeFromcart } from '../data/cart.js';
+// Optional: notice we can write imports on multiple
+// lines so the line doesn't get too long.
+import { cart, removeFromcart, calculateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -14,7 +16,6 @@ cart.forEach((cartItem) => {
       matchingproduct = product;
     }
   });
-
   cartSummeryHtml += `
   <div class="cart-item-container js-cart-item-container-${matchingproduct.id}">
     <div class="delivery-date">Delivery date: Tuesday, June 21</div>
@@ -32,10 +33,10 @@ cart.forEach((cartItem) => {
         <div class="product-price">$${formatCurrency(matchingproduct.priceCents)}</div>
         <div class="product-quantity">
           <span>
-            Quantity: <span class="quantity-label">${cartItem.Quantity}</span>
+            Quantity: <span class="quantity-label">${cartItem.quantity}</span>
           </span>
-          <span class="update-quantity-link link-primary">Update</span>
-          <span class="delete-quantity-link link-primary js-delete-link" data-product-id=${matchingproduct.id}>Delete</span>
+          <span class="update-quantity-link link-primary" >Update</span>
+          <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingproduct.id}">Delete</span>
         </div>
       </div>
 
@@ -80,7 +81,6 @@ cart.forEach((cartItem) => {
   </div>
   `;
 });
-
 document.querySelector('.js-order-summary').innerHTML = cartSummeryHtml;
 document.querySelectorAll('.js-delete-link').forEach((link) => {
   link.addEventListener('click', () => {
@@ -92,5 +92,16 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
     );
 
     containers.remove();
+
+    updateCartQuantity();
   });
 });
+
+function updateCartQuantity() {
+  const cartQuantity = calculateCartQuantity();
+
+  document.querySelector('.js-return-to-home-link').innerHTML =
+    `${cartQuantity} items`;
+}
+
+updateCartQuantity();

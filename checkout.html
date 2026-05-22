@@ -3,6 +3,18 @@
   <head>
     <title>Checkout</title>
 
+    <style>
+      /* ڕێکخستنی دوگمەی Update و Delete وەک سایتی سەرەکی */
+      .link-primary {
+        color: rgb(1, 124, 182); /* 👈 ڕەنگە شینەکەی ئەمازۆن */
+        cursor: pointer; /* 👈 گۆڕینی ماوسەکە بۆ شێوازی دەست */
+      }
+
+      /* کاتێک ماوسەکە دەچێتە سەری، ڕەنگەکەی پرتەقاڵی ببێت */
+      .link-primary:hover {
+        color: rgb(196, 80, 0); /* 👈 ڕەنگە پرتەقاڵییەکە */
+      }
+    </style>
     <!-- This code is needed for responsive design to work.
       (Responsive design = make the website look good on
       smaller screen sizes like a phone or a tablet). -->
@@ -43,7 +55,10 @@
         </div>
 
         <div class="checkout-header-middle-section">
-          Checkout (<a class="return-to-home-link" href="amazon.html">3 items</a
+          Checkout (<a
+            class="return-to-home-link js-return-to-home-link"
+            href="amazon.html"
+          ></a
           >)
         </div>
 
