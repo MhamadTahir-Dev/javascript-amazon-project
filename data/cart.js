@@ -26,13 +26,20 @@ export function addToCart(productId) {
     }
   });
 
+  const quantitySelector = document.querySelector(
+    `.js-quantity-selector-${productId}`,
+  );
+
+  const quantity = Number(quantitySelector.value);
+
   if (matchingItms) {
     // matchingItms.quantity += 1;
-    matchingItms.quantity++;
+    // matchingItms.quantity++;
+    matchingItms.quantity += quantity;
   } else {
     cart.push({
-      productId: productId,
-      quantity: 1,
+      productId,
+      quantity,
     });
   }
   saveToStorage();
