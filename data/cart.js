@@ -12,10 +12,14 @@ if (!cart) {
     },
   ];
 }
+
 function saveToStorage() {
   // aw cart ay yakam ba arazuy xota chi naweki le daneyt
   localStorage.setItem('cart', JSON.stringify(cart));
 }
+
+// 🌟 لێرەدا ناوەکەمان کرد بە ئۆبجێکت {} بۆ ئەوەی کاتی هەموو بەرهەمەکان بە جیا خەزن بکات
+const addedMessageTimeouts = {};
 
 export function addToCart(productId) {
   let matchingItms;
@@ -42,8 +46,28 @@ export function addToCart(productId) {
       quantity,
     });
   }
+
+  const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+
+  addedMessage.classList.add('added-to-cart-visible');
+
+  // 🌟 لێرەدا پشکنین دەکەین، ئەگەر پێشتر کلیک کرابوو، تایمەرە کۆنەکە دەکوژێنینەوە
+  const previousTimeoutId = addedMessageTimeouts[productId];
+  if (previousTimeoutId) {
+    clearTimeout(previousTimeoutId);
+  }
+
+  // 🌟 دروستکردنی تایمەری ٢ چرکەیی نوێ
+  const timeoutId = setTimeout(() => {
+    addedMessage.classList.remove('added-to-cart-visible');
+  }, 2000);
+
+  // 🌟 ئایدی تایمەرە نوێیەکە خەزن دەکەینەوە بۆ ئەم بەرهەمە تایبەتە
+  addedMessageTimeouts[productId] = timeoutId;
+
   saveToStorage();
 }
+
 export function removeFromCart(productId) {
   const newcart = [];
   cart.forEach((cartItem) => {
