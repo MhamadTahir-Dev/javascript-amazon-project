@@ -1,6 +1,12 @@
-// Optional: notice we can write imports on multiple
-// lines so the line doesn't get too long.
-import { cart, removeFromcart, calculateCartQuantity } from '../data/cart.js';
+// Optional: when importing a lot of values, you
+// can put each value on a separate line to make
+// the code easier to read.
+import {
+  cart,
+  removeFromCart,
+  calculateCartQuantity,
+  updateQuantity,
+} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -32,10 +38,16 @@ cart.forEach((cartItem) => {
         </div>
         <div class="product-price">$${formatCurrency(matchingproduct.priceCents)}</div>
         <div class="product-quantity">
+
           <span>
-            Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+            Quantity: <span class="quantity-label js-quantity-label-${matchingproduct.id}">${cartItem.quantity}</span>
           </span>
-          <span class="update-quantity-link link-primary" >Update</span>
+          <span class="update-quantity-link link-primary  js-update-link" data-product-id="${matchingproduct.id}">Update</span>
+
+       <input type="text" class="quantity-input js-quantity-input-${matchingproduct.id}"  data-product-id="${matchingproduct.id}">
+       
+          <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${matchingproduct.id}">Save</span>
+
           <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingproduct.id}">Delete</span>
         </div>
       </div>
@@ -85,7 +97,7 @@ document.querySelector('.js-order-summary').innerHTML = cartSummeryHtml;
 document.querySelectorAll('.js-delete-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;
-    removeFromcart(productId);
+    removeFromCart(productId);
 
     const containers = document.querySelector(
       ` .js-cart-item-container-${productId}`,
@@ -105,3 +117,63 @@ function updateCartQuantity() {
 }
 
 updateCartQuantity();
+
+document.querySelectorAll('.js-update-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    const productId = link.dataset.productId;
+
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`,
+    );
+    container.classList.add('is-editing-quantity');
+  });
+});
+
+function saveQuantity(productId) {
+  // Here's an example of a feature we can add: validation.
+  // Note: we need to move the quantity-related code up
+  // because if the new quantity is not valid, we should
+  // return early and NOT run the rest of the code. This
+  // technique is called an "early return".
+  const quantityInput = document.querySelector(
+    `.js-quantity-input-${productId}`,
+  );
+
+  const newQuantity = Number(quantityInput.value);
+
+  if (newQuantity < 0 || newQuantity >= 1000) {
+    alert('Quantity must be at least 0 and less than 1000');
+    return;
+  }
+
+  updateQuantity(productId, newQuantity);
+
+  const container = document.querySelector(
+    `.js-cart-item-container-${productId}`,
+  );
+  container.classList.remove('is-editing-quantity');
+
+  const quantityLabel = document.querySelector(
+    `.js-quantity-label-${productId}`,
+  );
+
+  quantityLabel.innerHTML = newQuantity;
+
+  updateCartQuantity();
+}
+
+document.querySelectorAll('.js-save-quantity-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    const productId = link.dataset.productId;
+    saveQuantity(productId);
+  });
+});
+
+document.querySelectorAll('.js-quantity-input').forEach((input) => {
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      const productId = input.dataset.productId;
+      saveQuantity(productId);
+    }
+  });
+});

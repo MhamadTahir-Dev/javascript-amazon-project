@@ -37,7 +37,7 @@ export function addToCart(productId) {
   }
   saveToStorage();
 }
-export function removeFromcart(productId) {
+export function removeFromCart(productId) {
   const newcart = [];
   cart.forEach((cartItem) => {
     if (cartItem.productId !== productId) {
@@ -58,4 +58,18 @@ export function calculateCartQuantity() {
 
   // ⚠️ زۆر گرنگە: لێرەدا دەبێت بڕەکە بگەڕێنێتەوە (return) بۆ ئەو شوێنەی بانگی دەکات
   return cartQuantity;
+}
+
+export function updateQuantity(productId, newQuantity) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.quantity = newQuantity;
+
+  saveToStorage();
 }
