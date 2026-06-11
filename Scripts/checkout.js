@@ -6,6 +6,7 @@ import {
   removeFromCart,
   calculateCartQuantity,
   updateQuantity,
+  updateDliveryOption,
 } from '../data/cart.js';
 import { products } from '../data/products.js';
 import formatCurrency from './utils/money.js';
@@ -43,7 +44,7 @@ cart.forEach((cartItem) => {
   });
 
   const today = dayjs();
-  const DeliveryDate = today.add(deliveryOption.deliveryDays, 'days');
+const DeliveryDate = today.add(deliveryOption.deliveryDays, 'days');
   const dataString = DeliveryDate.format('dddd, MMM D');
 
   cartSummeryHtml += `
@@ -101,7 +102,7 @@ function deliveryOptionsHTML(matchingproduct, cartItem) {
     const ischecked = deliveryOptions.id === cartItem.deliveryOptionsId;
 
     html += `
-        <div class="delivery-option">
+        <div class="delivery-option  js-delivery-option"  data-product-id="${matchingproduct.id}" data-delivery-Options-id="${deliveryOptions.id}">
         <input
           type="radio"
           ${ischecked ? 'checked' : ''}
@@ -199,5 +200,12 @@ document.querySelectorAll('.js-quantity-input').forEach((input) => {
       const productId = input.dataset.productId;
       saveQuantity(productId);
     }
+  });
+});
+
+document.querySelectorAll('.js-delivery-option').forEach((element) => {
+  element.addEventListener('click', () => {
+    const { productId, deliveryOptionsId } = element.dataset;
+    updateDliveryOption(productId, deliveryOptionsId);
   });
 });
