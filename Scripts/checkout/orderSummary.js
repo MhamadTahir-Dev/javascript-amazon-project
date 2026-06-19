@@ -30,6 +30,7 @@ export function renderOrderummary() {
 
     const deliveryOption = getdeliveryOption(deliveryOptionsId);
 
+    // bogranaway kat subtract(1, 'month'); bakardet
     const today = dayjs();
     const DeliveryDate = today.add(deliveryOption.deliveryDays, 'days');
     const dataString = DeliveryDate.format('dddd, MMM D');
@@ -116,12 +117,12 @@ export function renderOrderummary() {
       );
 
       containers.remove();
-      updateCartQuantity();
+      renderOrderummary();
       renderPaymentSummary();
     });
   });
 
-  function updateCartQuantity() {
+    function updateCartQuantity() {
     const cartQuantity = calculateCartQuantity();
 
     document.querySelector('.js-return-to-home-link').innerHTML =
@@ -200,3 +201,48 @@ export function renderOrderummary() {
     });
   });
 }
+//  A
+//  const x = dayjs();
+//  const y = x.add(5, 'days');
+//  const z = y.format('MMMM D');
+//  console.log(z);
+//  B
+// const x = dayjs();
+// const y = x.add(1, 'month');
+// const z = y.format('MMMM D');
+// console.log(z);
+// C
+// const x = dayjs();
+// const y = x.subtract(1, 'month');
+// const z = y.format('MMMM D');
+// console.log(z);
+// D
+// const x = dayjs();
+// const z = x.format('dddd ');
+// console.log(z);
+// E
+// function isWeekend(date) {
+//   const dayofweek = date.format('dddd');
+//   return dayofweek === 'Saturday' || dayofweek === 'Sunday';
+// }
+// let date = dayjs();
+// console.log(date.format('dddd MMMM D'));
+// console.log(isWeekend(date));
+// date = dayjs().add(2, 'days');
+// console.log(date.format('dddd MMMM D'));
+// console.log(isWeekend(date));
+// date = dayjs().add(4, 'days');
+// console.log(date.format('dddd MMMM D'));
+// console.log(isWeekend(date));
+// date = dayjs().add(6, 'days');
+// console.log(date.format('dddd MMMM D'));
+// console.log(isWeekend(date));
+// F
+// function isWeekend(date) {
+//   const dayOfWeek = date.format('dddd');
+//   return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
+// }
+// export default isWeekend;
+// G
+// Change Name Export Default
+// H
