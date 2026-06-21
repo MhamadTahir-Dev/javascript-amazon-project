@@ -15,8 +15,10 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {
   deliveryOptions,
   getdeliveryOption,
+  calculateDeliveryDate,
 } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
 export function renderOrderummary() {
   let cartSummeryHtml = '';
@@ -31,13 +33,11 @@ export function renderOrderummary() {
     const deliveryOption = getdeliveryOption(deliveryOptionsId);
 
     // bogranaway kat subtract(1, 'month'); bakardet
-    const today = dayjs();
-    const DeliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dataString = DeliveryDate.format('dddd, MMM D');
+    const dateString = calculateDeliveryDate(deliveryOption);
 
     cartSummeryHtml += `
             <div class="cart-item-container js-cart-item-container-${matchingproduct.id}">
-              <div class="delivery-date">Delivery date: ${dataString}</div>
+              <div class="delivery-date">Delivery date: ${dateString}</div>
 
               <div class="cart-item-details-grid">
                 <img
@@ -78,9 +78,7 @@ export function renderOrderummary() {
     let html = '';
 
     deliveryOptions.forEach((deliveryOptions) => {
-      const today = dayjs();
-      const DeliveryDate = today.add(deliveryOptions.deliveryDays, 'days');
-      const dataString = DeliveryDate.format('dddd, MMM D');
+      const dateString = calculateDeliveryDate(deliveryOptions);
 
       const priceString =
         deliveryOptions.priceCents === 0
@@ -98,7 +96,7 @@ export function renderOrderummary() {
                     name="delivery-option-${matchingproduct.id}"
                   />
                   <div>
-                    <div class="delivery-option-date">${dataString}</div>
+                    <div class="delivery-option-date">${dateString}</div>
                     <div class="delivery-option-price">${priceString} Shipping</div>
                   </div>
                 </div >`;
@@ -107,22 +105,19 @@ export function renderOrderummary() {
   }
 
   document.querySelector('.js-order-summary').innerHTML = cartSummeryHtml;
+
   document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
 
-      const containers = document.querySelector(
-        ` .js-cart-item-container-${productId}`,
-      );
-
-      containers.remove();
+      renderCheckoutHeader();
       renderOrderummary();
       renderPaymentSummary();
     });
   });
 
-    function updateCartQuantity() {
+  function updateCartQuantity() {
     const cartQuantity = calculateCartQuantity();
 
     document.querySelector('.js-return-to-home-link').innerHTML =
@@ -196,53 +191,20 @@ export function renderOrderummary() {
     element.addEventListener('click', () => {
       const { productId, deliveryOptionsId } = element.dataset;
       updateDliveryOption(productId, deliveryOptionsId);
+      renderCheckoutHeader();
       renderOrderummary();
       renderPaymentSummary();
+      // We can delete the code below (from the original solution)
+      // because instead of using the DOM to update the page directly
+      // we can use MVC and re-render everything. This will make sure
+      // the page always matches the data.
+
+      // const quantityLabel = document.querySelector(
+      //   `.js-quantity-label-${productId}`
+      // );
+      // quantityLabel.innerHTML = newQuantity;
+
+      // updateCartQuantity();
     });
   });
 }
-//  A
-//  const x = dayjs();
-//  const y = x.add(5, 'days');
-//  const z = y.format('MMMM D');
-//  console.log(z);
-//  B
-// const x = dayjs();
-// const y = x.add(1, 'month');
-// const z = y.format('MMMM D');
-// console.log(z);
-// C
-// const x = dayjs();
-// const y = x.subtract(1, 'month');
-// const z = y.format('MMMM D');
-// console.log(z);
-// D
-// const x = dayjs();
-// const z = x.format('dddd ');
-// console.log(z);
-// E
-// function isWeekend(date) {
-//   const dayofweek = date.format('dddd');
-//   return dayofweek === 'Saturday' || dayofweek === 'Sunday';
-// }
-// let date = dayjs();
-// console.log(date.format('dddd MMMM D'));
-// console.log(isWeekend(date));
-// date = dayjs().add(2, 'days');
-// console.log(date.format('dddd MMMM D'));
-// console.log(isWeekend(date));
-// date = dayjs().add(4, 'days');
-// console.log(date.format('dddd MMMM D'));
-// console.log(isWeekend(date));
-// date = dayjs().add(6, 'days');
-// console.log(date.format('dddd MMMM D'));
-// console.log(isWeekend(date));
-// F
-// function isWeekend(date) {
-//   const dayOfWeek = date.format('dddd');
-//   return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
-// }
-// export default isWeekend;
-// G
-// Change Name Export Default
-// H
