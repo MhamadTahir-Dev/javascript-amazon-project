@@ -36,7 +36,9 @@ export function renderOrderummary() {
     const dateString = calculateDeliveryDate(deliveryOption);
 
     cartSummeryHtml += `
-            <div class="cart-item-container js-cart-item-container-${matchingproduct.id}">
+            <div class="cart-item-container
+            js-cart-item-container
+            js-cart-item-container-${matchingproduct.id}">
               <div class="delivery-date">Delivery date: ${dateString}</div>
 
               <div class="cart-item-details-grid">
@@ -50,18 +52,18 @@ export function renderOrderummary() {
                   ${matchingproduct.name}
                   </div>
                   <div class="product-price">$${formatCurrency(matchingproduct.priceCents)}</div>
-                  <div class="product-quantity">
+                  <div class="product-quantity  js-product-quantity-${matchingproduct.id}">
 
                     <span>
                       Quantity: <span class="quantity-label js-quantity-label-${matchingproduct.id}">${cartItem.quantity}</span>
                     </span>
                     <span class="update-quantity-link link-primary  js-update-link" data-product-id="${matchingproduct.id}">Update</span>
 
-                <input type="text" class="quantity-input js-quantity-input-${matchingproduct.id}"  data-product-id="${matchingproduct.id}">
-                
+                    <input type="text" class="quantity-input js-quantity-input-${matchingproduct.id}"  data-product-id="${matchingproduct.id}">
+                    
                     <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${matchingproduct.id}">Save</span>
 
-                    <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingproduct.id}">Delete</span>
+                    <span class="delete-quantity-link link-primary js-delete-link  js-delete-link-${matchingproduct.id}" data-product-id="${matchingproduct.id}">Delete</span>
                   </div>
                 </div>
 
