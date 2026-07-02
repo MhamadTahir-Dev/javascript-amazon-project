@@ -52,6 +52,22 @@ describe('test suite : renderOrderummary', () => {
     expect(
       document.querySelector(`.js-product-quantity-${productId2}`).innerText,
     ).toContain('Quantity: 1');
+
+    // پشکنینی ناوی کاڵاکان
+    expect(
+      document.querySelector(`.js-product-name-${productId1}`).innerText,
+    ).toEqual('Black and Gray Athletic Cotton Socks - 6 Pairs');
+    expect(
+      document.querySelector(`.js-product-name-${productId2}`).innerText,
+    ).toEqual('Intermediate Size Basketball');
+
+    // پشکنینی نرخی کاڵاکان
+    expect(
+      document.querySelector(`.js-product-price-${productId1}`).innerText,
+    ).toEqual('$10.90');
+    expect(
+      document.querySelector(`.js-product-price-${productId2}`).innerText,
+    ).toEqual('$20.95');
   });
 
   it('removs  a product', () => {
@@ -70,5 +86,15 @@ describe('test suite : renderOrderummary', () => {
 
     expect(cart.length).toEqual(1);
     expect(cart[0].productId).toEqual(productId2);
+
+    // پشکنینی ناوی کاڵاکان
+    expect(
+      document.querySelector(`.js-product-name-${productId2}`).innerText,
+    ).toEqual('Intermediate Size Basketball');
+
+    // پشکنینی نرخی کاڵاکان
+    expect(
+      document.querySelector(`.js-product-price-${productId2}`).innerText,
+    ).toEqual('$20.95');
   });
 });
