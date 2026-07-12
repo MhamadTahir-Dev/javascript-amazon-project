@@ -67,7 +67,7 @@ export function renderOrderummary() {
                   </div>
                 </div>
 
-                <div class="delivery-options">
+                <div class="delivery-options ">
                   <div class="delivery-options-title">Choose a delivery option:</div>
                     ${deliveryOptionsHTML(matchingproduct, cartItem)}
                 </div>
@@ -90,11 +90,11 @@ export function renderOrderummary() {
       const ischecked = deliveryOptions.id === cartItem.deliveryOptionsId;
 
       html += `
-                  <div class="delivery-option  js-delivery-option"  data-product-id="${matchingproduct.id}" data-delivery-Options-id="${deliveryOptions.id}">
+                  <div class="delivery-option  js-delivery-option  js-delivery-option-${matchingproduct.id}-${deliveryOptions.id}"  data-product-id="${matchingproduct.id}" data-delivery-Options-id="${deliveryOptions.id}">
                   <input
                     type="radio"
                     ${ischecked ? 'checked' : ''}
-                    class="delivery-option-input"
+                    class="delivery-option-input js-delivery-option-input-${cartItem.productId}-${deliveryOptions.id}"
                     name="delivery-option-${matchingproduct.id}"
                   />
                   <div>

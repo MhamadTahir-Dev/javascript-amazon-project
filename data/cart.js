@@ -1,3 +1,5 @@
+import { validDeliveryOption } from './deliveryOptions.js';
+
 export let cart;
 loadFromStorage();
 export function loadFromStorage() {
@@ -121,7 +123,18 @@ export function updateDliveryOption(productId, deliveryOptionsId) {
     }
   });
 
-  matchingItms.deliveryOptionsId = deliveryOptionsId;
+  // ✨ ئەگەر کاڵاکە نەدۆزرایەوە، ڕاستەوخۆ فەنکشنەکە ڕابگرە و مەچۆ خوارەوە
 
+  if (!matchingItms) {
+    return;
+  }
+
+  // ✨ پاراستنی دووەم (ئەم خاڵە): ئەگەر ئایدی ناردنەکە بوونی نەبوو و هەڵە بوو
+
+  if (!validDeliveryOption(deliveryOptionsId)) {
+    return;
+  }
+
+  matchingItms.deliveryOptionsId = deliveryOptionsId;
   saveToStorage();
 }
