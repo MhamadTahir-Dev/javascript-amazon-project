@@ -1,14 +1,14 @@
 class Cart {
   cartItems; // Shurcat = undefined;
-  localStoragekey; //  Shurcat = undefined;
+  #localStoragekey; //  Shurcat = undefined;
 
   constructor(localStoragekey) {
-    this.localStoragekey = localStoragekey;
-    this.loadFromStorage();
+    this.#localStoragekey = localStoragekey;
+    this.#loadFromStorage();
   }
 
-  loadFromStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStoragekey));
+  #loadFromStorage() {
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStoragekey));
 
     if (!this.cartItems) {
       this.cartItems = [
@@ -27,7 +27,7 @@ class Cart {
   }
   saveToStorage() {
     // aw cart ay yakam ba arazuy xota chi naweki le daneyt
-    localStorage.setItem(this.localStoragekey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStoragekey, JSON.stringify(this.cartItems));
   }
 
   // 🌟 لێرەدا ناوەکەمان کرد بە ئۆبجێکت {} بۆ ئەوەی کاتی هەموو بەرهەمەکان بە جیا خەزن بکات
@@ -148,5 +148,4 @@ const businessCart = new Cart('cart-business');
 
 console.log(cart);
 console.log(businessCart);
-
 console.log(businessCart instanceof Cart);
