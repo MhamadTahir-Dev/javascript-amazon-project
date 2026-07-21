@@ -51,7 +51,7 @@ export function renderOrderummary() {
                   <div class="product-name js-product-name-${matchingproduct.id}">
                   ${matchingproduct.name}
                   </div>
-                  <div class="product-price  js-product-price-${matchingproduct.id}">$${formatCurrency(matchingproduct.priceCents)}</div>
+                  <div class="product-price  js-product-price-${matchingproduct.id}">${matchingproduct.getPrice()}</div>
                   <div class="product-quantity  js-product-quantity-${matchingproduct.id}">
 
                     <span>
