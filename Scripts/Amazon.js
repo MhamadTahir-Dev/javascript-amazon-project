@@ -43,7 +43,11 @@ products.forEach((Prodect) => {
                 </select>
               </div>
 
+              ${Prodect.extraInfoHTML()}
+              
               <div class="product-spacer"></div>
+
+           
 
               <div class="added-to-cart  js-added-to-cart-${Prodect.id}">
                 <img src="images/icons/checkmark.png" />
