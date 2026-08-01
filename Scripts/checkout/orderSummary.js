@@ -1,13 +1,7 @@
 // Optional: when importing a lot of values, you
 // can put each value on a separate line to make
 // the code easier to read.
-import {
-  cart,
-  removeFromCart,
-  calculateCartQuantity,
-  updateQuantity,
-  updateDliveryOption,
-} from '../../data/cart.js';
+import { cart } from '../../data/cart-class.js';
 import { products, getProduct } from '../../data/products.js';
 import formatCurrency from '../utils/money.js';
 import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
@@ -23,7 +17,7 @@ import { renderCheckoutHeader } from './checkoutHeader.js';
 export function renderOrderummary() {
   let cartSummeryHtml = '';
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     const productId = cartItem.productId;
 
     const matchingproduct = getProduct(productId);
@@ -111,7 +105,7 @@ export function renderOrderummary() {
   document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
-      removeFromCart(productId);
+      cart.removeFromCart(productId);
 
       renderCheckoutHeader();
       renderOrderummary();
@@ -120,7 +114,7 @@ export function renderOrderummary() {
   });
 
   function updateCartQuantity() {
-    const cartQuantity = calculateCartQuantity();
+    const cartQuantity = cart.calculateCartQuantity();
 
     document.querySelector('.js-return-to-home-link').innerHTML =
       `${cartQuantity} items`;
@@ -156,7 +150,7 @@ export function renderOrderummary() {
       return;
     }
 
-    updateQuantity(productId, newQuantity);
+    cart.updateQuantity(productId, newQuantity);
 
     const container = document.querySelector(
       `.js-cart-item-container-${productId}`,
@@ -192,7 +186,7 @@ export function renderOrderummary() {
   document.querySelectorAll('.js-delivery-option').forEach((element) => {
     element.addEventListener('click', () => {
       const { productId, deliveryOptionsId } = element.dataset;
-      updateDliveryOption(productId, deliveryOptionsId);
+      cart.updateDliveryOption(productId, deliveryOptionsId);
       renderCheckoutHeader();
       renderOrderummary();
       renderPaymentSummary();

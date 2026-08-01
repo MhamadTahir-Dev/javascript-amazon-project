@@ -1,9 +1,13 @@
+import { validDeliveryOption } from './deliveryOptions.js';
+
 class Cart {
   cartItems; // Shurcat = undefined;
   #localStoragekey; //  Shurcat = undefined;
+  addedMessageTimeouts = {};
 
   constructor(localStoragekey) {
     this.#localStoragekey = localStoragekey;
+    this.addedMessageTimeouts = {};
     this.#loadFromStorage();
   }
 
@@ -31,7 +35,7 @@ class Cart {
   }
 
   // 🌟 لێرەدا ناوەکەمان کرد بە ئۆبجێکت {} بۆ ئەوەی کاتی هەموو بەرهەمەکان بە جیا خەزن بکات
-  addedMessageTimeout = {};
+  addedMessageTimeouts = {};
 
   addToCart(productId) {
     let matchingItms;
@@ -143,10 +147,8 @@ class Cart {
   }
 }
 
-const cart = new Cart('cart-oop');
+export const cart = new Cart('cart-oop');
 const businessCart = new Cart('cart-business');
-
-
 
 console.log(cart);
 console.log(businessCart);

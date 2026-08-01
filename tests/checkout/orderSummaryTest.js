@@ -1,5 +1,6 @@
-import { renderOrderummary } from '../../Scripts/checkout/orderSummary.js';
-import { loadFromStorage, cart } from '../../data/cart.js';
+import { renderOrderummary } from '../../scripts/checkout/orderSummary.js';
+
+import { cart } from '../../data/cart-class.js';
 
 describe('test suite : renderOrderummary', () => {
   const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
@@ -16,22 +17,19 @@ describe('test suite : renderOrderummary', () => {
      
     `;
 
-    spyOn(localStorage, 'getItem').and.callFake(() => {
-      return JSON.stringify([
-        {
-          productId: productId1,
-          quantity: 2,
-          deliveryOptionsId: '1',
-        },
-        {
-          productId: productId2,
-          quantity: 1,
-          deliveryOptionsId: '2',
-        },
-      ]);
-    });
+    cart.cartItems = [
+      {
+        productId: productId1,
+        quantity: 2,
+        deliveryOptionsId: '1',
+      },
+      {
+        productId: productId2,
+        quantity: 1,
+        deliveryOptionsId: '2',
+      },
+    ];
 
-    loadFromStorage();
     renderOrderummary();
   });
 
@@ -84,8 +82,8 @@ describe('test suite : renderOrderummary', () => {
       document.querySelector(`.js-cart-item-container-${productId2}`),
     ).not.toEqual(null);
 
-    expect(cart.length).toEqual(1);
-    expect(cart[0].productId).toEqual(productId2);
+    expect(cart.cartItems.length).toEqual(1);
+    expect(cart.cartItems[0].productId).toEqual(productId2);
 
     // پشکنینی ناوی کاڵاکان
     expect(
@@ -105,10 +103,10 @@ describe('test suite : renderOrderummary', () => {
       `.js-delivery-option-input-${productId1}-3`,
     );
     expect(input.checked).toEqual(true);
-    expect(cart.length).toEqual(2);
+    expect(cart.cartItems.length).toEqual(2);
 
-    expect(cart[0].productId).toEqual(productId1);
-    expect(cart[0].deliveryOptionsId).toEqual('3');
+    expect(cart.cartItems[0].productId).toEqual(productId1);
+    expect(cart.cartItems[0].deliveryOptionsId).toEqual('3');
 
     expect(
       document.querySelector('.js-payment-summary-shipping').innerText,
