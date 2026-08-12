@@ -1,13 +1,16 @@
 // Optional: notice we can write imports on multiple
 // lines so the line doesn't get too long.
 import { cart } from '../data/cart-class.js';
-import { products } from '../data/products.js';
+import { products, loadproducts } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
-let prodectHtml = '';
+loadproducts(renderProductsGrid);
 
-products.forEach((Prodect) => {
-  prodectHtml += `
+function renderProductsGrid() {
+  let prodectHtml = '';
+
+  products.forEach((Prodect) => {
+    prodectHtml += `
     <div class="product-container">
               <div class="product-image-container">
           <img class="product-image"
@@ -57,24 +60,25 @@ products.forEach((Prodect) => {
               <button class="add-to-cart-button button-primary  js-add-to-cart"  data-product-id="${Prodect.id}">Add to Cart</button>
             </div>
   `;
-});
-
-document.querySelector('.js-products-grid').innerHTML = prodectHtml;
-
-// ١. لێرەدا ناوی فەنکشنەکە بە Qی گەورە بنووسە
-function updateCartQuantity() {
-  const cartQuantity = cart.calculateCartQuantity();
-
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-}
-updateCartQuantity();
-
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    //const productId = button.dataset.productId;
-    const { productId } = button.dataset;
-
-    cart.addToCart(productId);
-    updateCartQuantity();
   });
-});
+
+  document.querySelector('.js-products-grid').innerHTML = prodectHtml;
+
+  // ١. لێرەدا ناوی فەنکشنەکە بە Qی گەورە بنووسە
+  function updateCartQuantity() {
+    const cartQuantity = cart.calculateCartQuantity();
+
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  }
+  updateCartQuantity();
+
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      //const productId = button.dataset.productId;
+      const { productId } = button.dataset;
+
+      cart.addToCart(productId);
+      updateCartQuantity();
+    });
+  });
+}
