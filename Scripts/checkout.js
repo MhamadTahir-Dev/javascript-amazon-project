@@ -6,9 +6,50 @@ import '../data/Car.js';
 // import '../data/backend-practice.js';
 import { loadFromStorage } from '../data/cart.js';
 import { loadproducts } from '../data/products.js';
+import { loadCart } from '../data/cart.js';
 
-loadproducts(() => {
+Promise.all([
+  new Promise((resolve) => {
+    loadproducts(() => {
+      resolve('value1');
+    });
+  }),
+  new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  }),
+]).then((value) => {
+  console.log(value);
+
   renderCheckoutHeader();
   renderOrderummary();
   renderPaymentSummary();
 });
+
+// new Promise((resolve) => {
+//   loadproducts(() => {
+//     resolve('value1');
+//   });
+// })
+//   .then((value) => {
+//     console.log(value);
+//     return new Promise((resolve) => {
+//       loadCart(() => {
+//         resolve();
+//       });
+//     });
+//   })
+//   .then(() => {
+//     renderCheckoutHeader();
+//     renderOrderummary();
+//     renderPaymentSummary();
+//   });
+
+// loadproducts(() => {
+//   loadCart(() => {
+//     renderCheckoutHeader();
+//     renderOrderummary();
+//     renderPaymentSummary();
+//   });
+// });
