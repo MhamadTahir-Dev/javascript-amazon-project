@@ -8,20 +8,34 @@ import { loadFromStorage } from '../data/cart.js';
 import { loadproducts, loadproductsFetch } from '../data/products.js';
 import { loadCart } from '../data/cart.js';
 
-Promise.all([
-  loadproductsFetch(),
-  new Promise((resolve) => {
+async function loadpage() {
+  await loadproductsFetch();
+
+  const value = await new Promise((resolve) => {
     loadCart(() => {
-      resolve();
+      resolve('value3');
     });
-  }),
-]).then((value) => {
-  console.log(value);
+  });
 
   renderCheckoutHeader();
   renderOrderummary();
   renderPaymentSummary();
-});
+}
+loadpage();
+
+// Promise.all([
+//   loadproductsFetch(),
+//   new Promise((resolve) => {
+//     loadCart(() => {
+//       resolve();
+//     });
+//   }),
+// ]).then((value) => {
+//   console.log(value);
+//   renderCheckoutHeader();
+//   renderOrderummary();
+//   renderPaymentSummary();
+// });
 
 // new Promise((resolve) => {
 //   loadproducts(() => {
