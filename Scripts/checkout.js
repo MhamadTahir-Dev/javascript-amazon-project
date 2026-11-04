@@ -6,20 +6,15 @@ import '../data/Car.js';
 // import '../data/backend-practice.js';
 import { loadFromStorage } from '../data/cart.js';
 import { loadproducts, loadproductsFetch } from '../data/products.js';
-import { loadCart } from '../data/cart.js';
+// H
+import { loadCart, loadCartFetch } from '../data/cart.js';
 
 async function loadpage() {
   try {
     // throw 'error1';
 
-    await loadproductsFetch();
-    const value = await new Promise((resolve, reject) => {
-      // throw 'error2'
-      loadCart(() => {
-        // reject('error3');
-        resolve('value3');
-      });
-    });
+    // H ,I
+    await Promise.all([loadproductsFetch(), loadCartFetch()]);
   } catch {
     console.log('Unexpected error.  please try again later. ');
   }
