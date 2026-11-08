@@ -38,11 +38,14 @@ export function addToCart(productId) {
     }
   });
 
+  let quantity = 1;
   const quantitySelector = document.querySelector(
     `.js-quantity-selector-${productId}`,
   );
 
-  const quantity = Number(quantitySelector.value);
+  if (quantitySelector) {
+    quantity = Number(quantitySelector.value);
+  }
 
   if (matchingItms) {
     // matchingItms.quantity += 1;
@@ -56,9 +59,17 @@ export function addToCart(productId) {
     });
   }
 
+  // لە جیاتی ئەوەی ڕاستەوخۆ classList بنووسیت:
   const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
 
-  addedMessage.classList.add('added-to-cart-visible');
+  if (addedMessage) {
+    addedMessage.classList.add('is-visible');
+
+    // ئەگەر setTimeoutـیش هەبێت، بیخەرە ناو ئەم پشکنینەوە
+    setTimeout(() => {
+      addedMessage.classList.remove('is-visible');
+    }, 1000);
+  }
 
   // 🌟 لێرەدا پشکنین دەکەین، ئەگەر پێشتر کلیک کرابوو، تایمەرە کۆنەکە دەکوژێنینەوە
   const previousTimeoutId = addedMessageTimeouts[productId];
@@ -151,9 +162,15 @@ export function loadCart(fun) {
   xhr.send();
 }
 // H
-// export async function loadCartFetch() {
-//   const response = await fetch('https://supersimplebackend.dev/cart');
-//   const text = await response.text();
-//   console.log(text);
-//   return text;
-// }
+export async function loadCartFetch() {
+  const response = await fetch('https://supersimplebackend.dev/cart');
+  const text = await response.text();
+  console.log(text);
+  return text;
+}
+
+// Extra feature: make the cart empty after creating an order.
+export function resetCart() {
+  cart = [];
+  saveToStorage();
+}

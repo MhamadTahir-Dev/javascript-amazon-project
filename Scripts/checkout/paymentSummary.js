@@ -1,3 +1,4 @@
+import {  resetCart } from '../../data/cart.js';
 import { cart } from '../../data/cart-class.js';
 import { getProduct } from '../../data/products.js';
 import { getdeliveryOption } from '../../data/deliveryOptions.js';
@@ -83,6 +84,8 @@ export function renderPaymentSummary() {
         console.log('Unexpected error. Try again later.');
       }
 
+      // Extra feature: make the cart empty after creating an order.
+      resetCart();
       window.location.href = 'orders.html';
     });
 }

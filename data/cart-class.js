@@ -145,6 +145,10 @@ class Cart {
     matchingItms.deliveryOptionsId = deliveryOptionsId;
     this.saveToStorage();
   }
+  resetCart() {
+    this.cartItems = [];
+    this.saveToStorage();
+  }
 }
 
 export const cart = new Cart('cart-oop');
